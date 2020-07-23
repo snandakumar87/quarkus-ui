@@ -3,7 +3,7 @@
  *
  * Licensed under the Apache Software License version 2.0, available at http://www.apache.org/licenses/LICENSE-2.0
  */
-package io.debezium.examples.outbox.shipment.facade;
+package io.debezium.examples.outbox.trade.facade;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -16,11 +16,11 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.debezium.examples.outbox.trade.messagelog.MessageLog;
+import io.debezium.examples.outbox.trade.service.TradeOrderService;
+ 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import io.debezium.examples.outbox.shipment.messagelog.MessageLog;
-import io.debezium.examples.outbox.shipment.service.ShipmentService;
 
 @ApplicationScoped
 public class OrderEventHandler {
@@ -31,7 +31,7 @@ public class OrderEventHandler {
     MessageLog log;
 
     @Inject
-    ShipmentService shipmentService;
+    TradeOrderService shipmentService;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 

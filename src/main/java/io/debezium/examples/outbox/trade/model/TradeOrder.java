@@ -3,7 +3,7 @@
  *
  * Licensed under the Apache Software License version 2.0, available at http://www.apache.org/licenses/LICENSE-2.0
  */
-package io.debezium.examples.outbox.shipment.model;
+package io.debezium.examples.outbox.trade.model;
 
 import java.time.LocalDateTime;
 
@@ -14,7 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Shipment {
+public class TradeOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,10 +28,10 @@ public class Shipment {
 
     private LocalDateTime orderDate;
 
-    Shipment() {
+    TradeOrder() {
     }
 
-    public Shipment(Long customerId, long orderId, LocalDateTime orderDate) {
+    public TradeOrder(Long customerId, long orderId, LocalDateTime orderDate) {
         this.customerId = customerId;
         this.orderId = orderId;
         this.orderDate = orderDate;

@@ -3,7 +3,7 @@
  *
  * Licensed under the Apache Software License version 2.0, available at http://www.apache.org/licenses/LICENSE-2.0
  */
-package io.debezium.examples.outbox.shipment.messagelog;
+package io.debezium.examples.outbox.trade.messagelog;
 
 import java.time.Instant;
 import java.util.UUID;
