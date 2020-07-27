@@ -31,16 +31,18 @@ public class TradeOrderService {
 
     @Transactional(value=TxType.MANDATORY)
     public void orderCreated(JsonNode event) {
-        LOGGER.info("Processing 'OrderCreated' event: {}", event);
+        LOGGER.info("Processing 'OrderCreated' event: {}", event.asText());
 
-        final long id = event.get("id").asLong();
+        LOGGER.info("ID: " + event.get("id").toString() + " " + event.get("id").asText() + " " +  event.get("id").asLong());
+
+        final long id = Long.valueOf(event.get("id").asText());
         final String orderType = event.get("orderType").asText();
         final Date openDate = new Date(event.get("openDate").asLong());
         final String symbol = event.get("symbol").asText();
-        final int quantity = event.get("quantity").asInt();
+        final int quantity = Integer.valueOf(event.get("quantity").asText());
         final BigDecimal price = new BigDecimal(event.get("price").asText());
         final BigDecimal orderFee= new BigDecimal(event.get("orderFee").asText());
-        final int accountId = event.get("accountId").asInt();
+        final int accountId = Integer.valueOf(event.get("accountId").asText());
 
         LOGGER.info("Going to persist 'TradeOrder'");
 
