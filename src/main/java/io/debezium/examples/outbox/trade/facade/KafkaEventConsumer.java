@@ -13,6 +13,7 @@ import java.util.concurrent.CompletionStage;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import org.apache.kafka.common.header.Header;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
@@ -30,6 +31,7 @@ public class KafkaEventConsumer {
     OrderEventHandler orderEventHandler;
 
     @Incoming("orders")
+    @Transactional
     public CompletionStage<Void> onMessage(KafkaRecord<String, String> message) throws IOException {
         return CompletableFuture.runAsync(() -> {
                 LOG.info(message.getPayload());
