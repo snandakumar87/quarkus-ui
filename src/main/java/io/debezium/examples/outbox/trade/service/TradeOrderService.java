@@ -42,7 +42,7 @@ public class TradeOrderService {
 
         LOGGER.info("type: " + event.get("type") + " " + event.get("type").asText());
 
-        final long id = Long.valueOf(event.get("id").asText());
+        final long orderId = Long.valueOf(event.get("id").asText());
         final String orderType = event.get("type").asText();
         final Date openDate = new Date(event.get("openDate").asLong());
         final String symbol = event.get("symbol").asText();
@@ -53,7 +53,7 @@ public class TradeOrderService {
 
         LOGGER.info("Going to persist 'TradeOrder'");
 
-        TradeOrder tradeOrder = new TradeOrder(id, orderType, openDate, symbol, quantity, price, orderFee, accountId);
+        TradeOrder tradeOrder = new TradeOrder(orderId, orderType, openDate, symbol, quantity, price, orderFee, accountId);
 
         LOGGER.info("Persisting 'TradeOrder': {}", tradeOrder);
 
