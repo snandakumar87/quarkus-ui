@@ -34,8 +34,13 @@ public class KafkaEventConsumer {
         return CompletableFuture.runAsync(() -> {
                 LOG.info("Kafka message with key = {} arrived", message.getKey());
 
+                LOG.info(message.toString());
+
                 String eventId = getHeaderAsString(message, "id");
                 String eventType = getHeaderAsString(message, "eventType");
+
+
+                LOG.info("Calling onOrderEvent");
 
                 orderEventHandler.onOrderEvent(
                         UUID.fromString(eventId),
@@ -50,6 +55,7 @@ public class KafkaEventConsumer {
     private String getHeaderAsString(KafkaRecord<?, ?> record, String name) {
         Header header = record.getHeaders().lastHeader(name);
         if (header == null) {
+            LOG.error("header is null: " + name);
             throw new IllegalArgumentException("Expected record header '" + name + "' not present");
         }
 

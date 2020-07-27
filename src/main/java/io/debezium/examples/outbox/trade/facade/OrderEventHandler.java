@@ -37,6 +37,8 @@ public class OrderEventHandler {
 
     @Transactional
     public void onOrderEvent(UUID eventId, String eventType, String key, String event, Instant ts) {
+        LOGGER.info("Starting onOrderEvent");
+
         if (log.alreadyProcessed(eventId)) {
             LOGGER.info("Event with UUID {} was already retrieved, ignoring it", eventId);
             return;
