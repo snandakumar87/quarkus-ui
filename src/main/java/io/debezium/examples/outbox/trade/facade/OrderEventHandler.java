@@ -81,8 +81,9 @@ public class OrderEventHandler {
         JsonNode eventPayload;
 
         try {
-            String unescaped = objectMapper.readValue(event, String.class);
-            eventPayload = objectMapper.readTree(unescaped);
+            //String unescaped = objectMapper.readValue(event, String.class);
+            event = event.replaceAll("\\\\\"", "\"");
+            eventPayload = objectMapper.readTree(event);
         }
         catch (IOException e) {
             LOGGER.error(e.getMessage());
