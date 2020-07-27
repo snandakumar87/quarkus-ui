@@ -44,6 +44,8 @@ public class OrderEventHandler {
             return;
         }
 
+        LOGGER.info("Continuing onOrderEvent");
+
         JsonNode eventPayload = deserialize(event);
 
         LOGGER.info("Received 'Order' event -- key: {}, event id: '{}', event type: '{}', ts: '{}'", key, eventId, eventType, ts);
