@@ -36,8 +36,18 @@ public class OrderEventHandler {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Transactional
-    public void onOrderEvent(UUID eventId, String eventType, String key, String event, Instant ts) {
+    public void onOrderEvent(String payload) {
         LOGGER.info("Starting onOrderEvent");
+
+        JsonNode eventJson = deserialize(payload).get("after");
+        LOGGER.info("#1 " + eventJson.asText());
+
+        UUID eventId = UUID.fromString(eventJson.get("ID").textValue());
+        LOGGER.info("#2 " + eventId.toString());
+
+        String eventType = eventJson.get("TYPE").textValue();
+        LOGGER.info("#3 " + eventType);
+
 
         if (log.alreadyProcessed(eventId)) {
             LOGGER.info("Event with UUID {} was already retrieved, ignoring it", eventId);
@@ -46,9 +56,9 @@ public class OrderEventHandler {
 
         LOGGER.info("Continuing onOrderEvent");
 
-        JsonNode eventPayload = deserialize(event);
+        JsonNode eventPayload = eventJson.get("PAYLOAD");
 
-        LOGGER.info("Received 'Order' event -- key: {}, event id: '{}', event type: '{}', ts: '{}'", key, eventId, eventType, ts);
+        LOGGER.info("Received 'Order' event -- event id: '{}', event type: '{}'", eventId, eventType);
 
         if (eventType.equals("OrderCreated")) {
             shipmentService.orderCreated(eventPayload);
@@ -71,6 +81,6 @@ public class OrderEventHandler {
             throw new RuntimeException("Couldn't deserialize event", e);
         }
 
-        return eventPayload.has("schema") ? eventPayload.get("payload") : eventPayload;
+        return eventPayload.has("schema") ? eventPayload.get("payload").get("after") : eventPayload;
     }
 }

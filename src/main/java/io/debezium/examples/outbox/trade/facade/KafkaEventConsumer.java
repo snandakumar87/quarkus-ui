@@ -32,34 +32,8 @@ public class KafkaEventConsumer {
     @Incoming("orders")
     public CompletionStage<Void> onMessage(KafkaRecord<String, String> message) throws IOException {
         return CompletableFuture.runAsync(() -> {
-                LOG.info("Kafka message with key = {} arrived", message.getKey());
-
-                LOG.info(message.getHeaders().toString());
                 LOG.info(message.getPayload());
-
-                String eventId = getHeaderAsString(message, "id");
-                String eventType = getHeaderAsString(message, "eventType");
-
-
-                LOG.info("Calling onOrderEvent");
-
-                orderEventHandler.onOrderEvent(
-                        UUID.fromString(eventId),
-                        eventType,
-                        message.getKey(),
-                        message.getPayload(),
-                        message.getTimestamp()
-                );
+                orderEventHandler.onOrderEvent(message.getPayload());
         });
-    }
-
-    private String getHeaderAsString(KafkaRecord<?, ?> record, String name) {
-        Header header = record.getHeaders().lastHeader(name);
-        if (header == null) {
-            LOG.error("header is null: " + name);
-            throw new IllegalArgumentException("Expected record header '" + name + "' not present");
-        }
-
-        return new String(header.value(), Charset.forName("UTF-8"));
     }
 }
