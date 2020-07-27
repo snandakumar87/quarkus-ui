@@ -33,7 +33,11 @@ public class TradeOrderService {
     public void orderCreated(JsonNode event) {
         LOGGER.info("Processing 'OrderCreated' event: {}", event.asText());
 
-        LOGGER.info("ID: " + event.get("id").toString() + " " + event.get("id").asText() + " " +  event.get("id").asLong());
+        while(event.fields().hasNext()) {
+            LOGGER.info("field " + event.fields().next()); 
+        }
+
+        LOGGER.info("type: " + event.get("type") + " " + event.findValue("id"));
 
         final long id = Long.valueOf(event.get("id").asText());
         final String orderType = event.get("orderType").asText();
