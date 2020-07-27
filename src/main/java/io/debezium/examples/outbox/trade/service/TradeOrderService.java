@@ -42,7 +42,11 @@ public class TradeOrderService {
         final BigDecimal orderFee= new BigDecimal(event.get("orderFee").asText());
         final int accountId = event.get("accountId").asInt();
 
-        entityManager.persist(new TradeOrder(id, orderType, openDate, symbol, quantity, price, orderFee, accountId));
+        TradeOrder tradeOrder = new TradeOrder(id, orderType, openDate, symbol, quantity, price, orderFee, accountId);
+
+        LOGGER.info("Persisting 'TradeOrder': {}", tradeOrder);
+
+        entityManager.persist(tradeOrder);
     }
 
     @Transactional(value=TxType.MANDATORY)
