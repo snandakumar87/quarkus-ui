@@ -73,7 +73,8 @@ public class OrderEventHandler {
 
         }
         catch(Exception e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error("Error: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -87,6 +88,7 @@ public class OrderEventHandler {
         }
         catch (IOException e) {
             LOGGER.error(e.getMessage());
+            e.printStackTrace();
             throw new RuntimeException("Couldn't deserialize event", e);
         }
 
@@ -95,6 +97,6 @@ public class OrderEventHandler {
 
 
     public static void main(String[] args){
-        
+
     }
 }
