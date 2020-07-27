@@ -35,7 +35,6 @@ public class OrderEventHandler {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @Transactional
     public void onOrderEvent(String payload) {
 
         try {

@@ -20,7 +20,7 @@ public class TradeOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
-    private Long id;
+    private long id;
     private String orderType;
     private Date openDate;
     private String symbol;
@@ -43,8 +43,12 @@ public class TradeOrder {
         this.accountId = accountId;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getOrderType() {
