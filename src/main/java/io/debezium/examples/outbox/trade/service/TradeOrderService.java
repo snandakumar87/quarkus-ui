@@ -19,19 +19,26 @@ import org.slf4j.LoggerFactory;
 
 import io.debezium.examples.outbox.trade.model.TradeOrder;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ApplicationScoped
 public class TradeOrderService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TradeOrderService.class);
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     @PersistenceContext
     EntityManager entityManager;
 
-    @Transactional(value=TxType.MANDATORY)
-    public void orderCreated(JsonNode event) {
+    @Transactional(value = TxType.MANDATORY)
+    public void orderCreated(JsonNode event) throws JsonMappingException, JsonProcessingException {
         LOGGER.info("Processing 'OrderCreated' event: {}", event.asText());
+
+        event = objectMapper.readTree(event.asText());
 
         while(event.fields().hasNext()) {
             LOGGER.info("field " + event.fields().next()); 
