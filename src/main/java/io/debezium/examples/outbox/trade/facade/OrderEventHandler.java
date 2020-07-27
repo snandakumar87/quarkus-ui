@@ -82,7 +82,7 @@ public class OrderEventHandler {
 
         try {
             //String unescaped = objectMapper.readValue(event, String.class);
-            event = event.replaceAll("\\\\\"", "\"");
+            //event = event.replaceAll("\\\\\"", "\"");
             eventPayload = objectMapper.readTree(event);
         }
         catch (IOException e) {
@@ -91,5 +91,10 @@ public class OrderEventHandler {
         }
 
         return eventPayload.has("schema") ? eventPayload.get("payload").get("after") : eventPayload;
+    }
+
+
+    public static void main(String[] args){
+        
     }
 }
