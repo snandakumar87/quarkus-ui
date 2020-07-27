@@ -43,13 +43,13 @@ public class TradeOrderService {
         LOGGER.info("type: " + event.get("type") + " " + event.findValue("id"));
 
         final long id = Long.valueOf(event.get("id").asText());
-        final String orderType = event.get("orderType").asText();
+        final String orderType = event.get("type").asText();
         final Date openDate = new Date(event.get("openDate").asLong());
         final String symbol = event.get("symbol").asText();
-        final int quantity = Integer.valueOf(event.get("quantity").asText());
+        final int quantity = event.get("quantity").asInt();
         final BigDecimal price = new BigDecimal(event.get("price").asText());
         final BigDecimal orderFee= new BigDecimal(event.get("orderFee").asText());
-        final int accountId = Integer.valueOf(event.get("accountId").asText());
+        final int accountId = event.get("accountId").asInt();
 
         LOGGER.info("Going to persist 'TradeOrder'");
 
