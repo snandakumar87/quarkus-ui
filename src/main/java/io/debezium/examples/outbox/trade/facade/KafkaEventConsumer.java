@@ -32,7 +32,7 @@ public class KafkaEventConsumer {
     @Incoming("orders")
     public CompletionStage<Void> onMessage(KafkaRecord<String, String> message) throws IOException {
         return CompletableFuture.runAsync(() -> {
-                LOG.debug("Kafka message with key = {} arrived", message.getKey());
+                LOG.info("Kafka message with key = {} arrived", message.getKey());
 
                 String eventId = getHeaderAsString(message, "id");
                 String eventType = getHeaderAsString(message, "eventType");

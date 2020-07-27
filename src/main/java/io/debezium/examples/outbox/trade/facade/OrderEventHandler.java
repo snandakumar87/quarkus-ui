@@ -49,9 +49,6 @@ public class OrderEventHandler {
         if (eventType.equals("OrderCreated")) {
             shipmentService.orderCreated(eventPayload);
         }
-        else if (eventType.equals("OrderLineUpdated")) {
-            shipmentService.orderLineUpdated(eventPayload);
-        }
         else {
             LOGGER.warn("Unkown event type");
         }
