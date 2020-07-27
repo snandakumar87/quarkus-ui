@@ -34,7 +34,8 @@ public class KafkaEventConsumer {
         return CompletableFuture.runAsync(() -> {
                 LOG.info("Kafka message with key = {} arrived", message.getKey());
 
-                LOG.info(message.toString());
+                LOG.info(message.getHeaders().toString());
+                LOG.info(message.getPayload());
 
                 String eventId = getHeaderAsString(message, "id");
                 String eventType = getHeaderAsString(message, "eventType");
