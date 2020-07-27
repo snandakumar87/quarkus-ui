@@ -6,19 +6,19 @@
 package io.debezium.examples.outbox.trade.facade;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.util.UUID;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.debezium.examples.outbox.trade.messagelog.MessageLog;
 import io.debezium.examples.outbox.trade.service.TradeOrderService;
- 
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -35,7 +35,7 @@ public class OrderEventHandler {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @Transactional
+    @Transactional(value = TxType.REQUIRES_NEW)
     public void onOrderEvent(String payload) {
 
         try {
