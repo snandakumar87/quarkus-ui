@@ -37,37 +37,44 @@ public class OrderEventHandler {
 
     @Transactional
     public void onOrderEvent(String payload) {
-        LOGGER.info("Starting onOrderEvent");
 
-        JsonNode eventJson = deserialize(payload).get("after");
-        LOGGER.info("#1 " + eventJson.asText());
+        try {
+            LOGGER.info("Starting onOrderEvent");
 
-        UUID eventId = UUID.fromString(eventJson.get("ID").textValue());
-        LOGGER.info("#2 " + eventId.toString());
+            JsonNode eventJson = deserialize(payload);
+            LOGGER.info("#1 " + eventJson.asText());
 
-        String eventType = eventJson.get("TYPE").textValue();
-        LOGGER.info("#3 " + eventType);
+            UUID eventId = UUID.fromString(eventJson.get("ID").textValue());
+            LOGGER.info("#2 " + eventId.toString());
+
+            String eventType = eventJson.get("TYPE").textValue();
+            LOGGER.info("#3 " + eventType);
 
 
-        if (log.alreadyProcessed(eventId)) {
-            LOGGER.info("Event with UUID {} was already retrieved, ignoring it", eventId);
-            return;
+            if (log.alreadyProcessed(eventId)) {
+                LOGGER.info("Event with UUID {} was already retrieved, ignoring it", eventId);
+                return;
+            }
+
+            LOGGER.info("Continuing onOrderEvent");
+
+            JsonNode eventPayload = eventJson.get("PAYLOAD");
+
+            LOGGER.info("Received 'Order' event -- event id: '{}', event type: '{}'", eventId, eventType);
+
+            if (eventType.equals("OrderCreated")) {
+                shipmentService.orderCreated(eventPayload);
+            }
+            else {
+                LOGGER.warn("Unkown event type");
+            }
+
+            log.processed(eventId);
+
         }
-
-        LOGGER.info("Continuing onOrderEvent");
-
-        JsonNode eventPayload = eventJson.get("PAYLOAD");
-
-        LOGGER.info("Received 'Order' event -- event id: '{}', event type: '{}'", eventId, eventType);
-
-        if (eventType.equals("OrderCreated")) {
-            shipmentService.orderCreated(eventPayload);
+        catch(Exception e) {
+            LOGGER.error(e.getMessage());
         }
-        else {
-            LOGGER.warn("Unkown event type");
-        }
-
-        log.processed(eventId);
     }
 
     private JsonNode deserialize(String event) {
@@ -78,6 +85,7 @@ public class OrderEventHandler {
             eventPayload = objectMapper.readTree(unescaped);
         }
         catch (IOException e) {
+            LOGGER.error(e.getMessage());
             throw new RuntimeException("Couldn't deserialize event", e);
         }
 
