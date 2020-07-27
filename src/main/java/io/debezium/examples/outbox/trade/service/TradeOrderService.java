@@ -40,7 +40,7 @@ public class TradeOrderService {
 
         event = objectMapper.readTree(event.asText());
 
-        LOGGER.info("type: " + event.get("type") + " " + event.findValue("id"));
+        LOGGER.info("type: " + event.get("type") + " " + event.get("type").asText());
 
         final long id = Long.valueOf(event.get("id").asText());
         final String orderType = event.get("type").asText();
