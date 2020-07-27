@@ -5,7 +5,8 @@
  */
 package io.debezium.examples.outbox.trade.service;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
@@ -32,11 +33,16 @@ public class TradeOrderService {
     public void orderCreated(JsonNode event) {
         LOGGER.info("Processing 'OrderCreated' event: {}", event);
 
-        final long orderId = event.get("id").asLong();
-        final long customerId = event.get("accountId").asLong();
-        final LocalDateTime orderDate = LocalDateTime.parse(event.get("openDate").asText());
+        final long id = event.get("id").asLong();
+        final String orderType = event.get("orderType").asText();
+        final Date openDate = new Date(event.get("openDate").asLong());
+        final String symbol = event.get("symbol").asText();
+        final int quantity = event.get("quantity").asInt();
+        final BigDecimal price = new BigDecimal(event.get("price").asText());
+        final BigDecimal orderFee= new BigDecimal(event.get("orderFee").asText());
+        final int accountId = event.get("accountId").asInt();
 
-        entityManager.persist(new TradeOrder(customerId, orderId, orderDate));
+        entityManager.persist(new TradeOrder(id, orderType, openDate, symbol, quantity, price, orderFee, accountId));
     }
 
     @Transactional(value=TxType.MANDATORY)

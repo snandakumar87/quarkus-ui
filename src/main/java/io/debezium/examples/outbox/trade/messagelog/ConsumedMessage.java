@@ -5,7 +5,9 @@
  */
 package io.debezium.examples.outbox.trade.messagelog;
 
+import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Date;
 import java.util.UUID;
 
 import javax.persistence.Entity;
@@ -16,13 +18,12 @@ public class ConsumedMessage {
 
     @Id
     private UUID eventId;
-
     private Instant timeOfReceiving;
 
     ConsumedMessage() {
     }
 
-    public ConsumedMessage(UUID eventId, Instant timeOfReceiving) {
+    public ConsumedMessage(UUID eventId, Instant timeOfReceiving){
         this.eventId = eventId;
         this.timeOfReceiving = timeOfReceiving;
     }
