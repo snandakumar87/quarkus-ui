@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -18,8 +19,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.debezium.examples.outbox.trade.model.TradeOrder;
+import io.vertx.core.json.JsonObject;
+import io.vertx.mutiny.core.eventbus.EventBus;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,6 +34,9 @@ public class TradeOrderService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TradeOrderService.class);
 
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @Inject
+    EventBus eventBus;
 
     @PersistenceContext
     EntityManager entityManager;
@@ -47,8 +54,8 @@ public class TradeOrderService {
         final Date openDate = new Date(event.get("openDate").asLong());
         final String symbol = event.get("symbol").asText();
         final int quantity = event.get("quantity").asInt();
-        final BigDecimal price = new BigDecimal(event.get("price").asText());
-        final BigDecimal orderFee= new BigDecimal(event.get("orderFee").asText());
+        final String price = event.get("price").asText();
+        final String orderFee= event.get("orderFee").asText();
         final int accountId = event.get("accountId").asInt();
 
         LOGGER.info("Going to persist 'TradeOrder'");
@@ -58,6 +65,9 @@ public class TradeOrderService {
         LOGGER.info("Persisting 'TradeOrder': {}", tradeOrder);
 
         entityManager.persist(tradeOrder);
+
+        final JsonObject jsonObject = JsonObject.mapFrom(tradeOrder);
+        eventBus.publish("order_stream", jsonObject);
     }
 
     @Transactional(value=TxType.MANDATORY)

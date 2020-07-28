@@ -26,14 +26,14 @@ public class TradeOrder {
     private Date openDate;
     private String symbol;
     private int quantity;
-    private BigDecimal price;
-    private BigDecimal orderFee;
+    private String price;
+    private String orderFee;
     private int accountId;
 
     TradeOrder() {
     }
 
-    public TradeOrder(long orderId, String orderType, Date openDate, String symbol, int quantity, BigDecimal price, BigDecimal orderFee, int accountId) {
+    public TradeOrder(long orderId, String orderType, Date openDate, String symbol, int quantity, String price, String orderFee, int accountId) {
         this.orderId = orderId;
         this.orderType = orderType;
         this.openDate = openDate;
@@ -92,19 +92,19 @@ public class TradeOrder {
         this.quantity = quantity;
     }
 
-    public BigDecimal getPrice() {
+    public String getPrice() {
         return this.price;
     }
 
-    public void setPrice(BigDecimal price){
+    public void setPrice(String price){
         this.price = price;
     }
 
-    public BigDecimal getOrderFee(){
+    public String getOrderFee(){
         return this.orderFee;
     }
 
-    public void setOrderFee(BigDecimal orderFee){
+    public void setOrderFee(String orderFee){
         this.orderFee = orderFee;
     }
 
