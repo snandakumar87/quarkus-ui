@@ -48,6 +48,21 @@ components:
     command: ['tail']
     args: ['-f', '/dev/null']
 
+  - memoryLimit: 512Mi
+    type: dockerimage
+    volumes:
+      - name: postgresql-data
+        containerPath: /var/lib/postgresql/
+    image: postgres
+    alias: postgresql
+    env:
+      - value: tradedb
+        name: POSTGRES_USER
+      - value: tradedb
+        name: POSTGRES_PASSWORD
+      - value: tradedb
+        name: POSTGRES_DB
+
 commands:
   -
     name: Package
@@ -99,3 +114,9 @@ commands:
             }
           ]
         }
+  - 
+    name: psql
+    actions:
+      - type: exec
+        command: psql -d tradedb -U tradedb
+        component: postgresql
