@@ -55,24 +55,24 @@ commands:
       -
         type: exec
         component: centos-quarkus-maven
-        command: "./mvnw package"
-        workdir: ${CHE_PROJECTS_ROOT}/quarkus-daytrader/getting-started
+        command: "mvn package"
+        workdir: ${CHE_PROJECTS_ROOT}/quarkus-daytrader
   -
     name: Start Development mode (Hot reload + debug)
     actions:
       -
         type: exec
         component: centos-quarkus-maven
-        command: "./mvnw compile quarkus:dev"
-        workdir: ${CHE_PROJECTS_ROOT}/quarkus-daytrader/getting-started
+        command: "mvn compile quarkus:dev"
+        workdir: ${CHE_PROJECTS_ROOT}/quarkus-daytrader
   -
     name: Package Native
     actions:
       -
         type: exec
         component: centos-quarkus-maven
-        command: "./mvnw package -Dnative -Dmaven.test.skip"
-        workdir: ${CHE_PROJECTS_ROOT}/quarkus-daytrader/getting-started
+        command: "mvn package -Dnative -Dmaven.test.skip"
+        workdir: ${CHE_PROJECTS_ROOT}/quarkus-daytrader
 
   -
     name: Start Native
@@ -81,7 +81,7 @@ commands:
         type: exec
         component: ubi-minimal
         command: ./getting-started-1.0-SNAPSHOT-runner
-        workdir: ${CHE_PROJECTS_ROOT}/quarkus-daytrader/getting-started/target
+        workdir: ${CHE_PROJECTS_ROOT}/quarkus-daytrader/target
   -
     name: Attach remote debugger
     actions:
