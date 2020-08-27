@@ -7,8 +7,7 @@ projects:
     name: quarkus-daytrader
     source:
       type: git
-      location: "https://github.com/murphye/quarkus-daytrader"
-      sparseCheckoutDir: quarkus-daytrader
+      location: "https://github.com/murphye/quarkus-daytrader.git"
 components:
   -
     type: chePlugin
