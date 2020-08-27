@@ -13,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class TradeOrder {
 
@@ -22,6 +24,8 @@ public class TradeOrder {
     private long id;
     private long orderId;
     private String orderType;
+
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy")
     private Date openDate;
     private String symbol;
     private int quantity;
