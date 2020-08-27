@@ -6,16 +6,12 @@
 package io.debezium.examples.outbox.trade.facade;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-
-import org.apache.kafka.common.header.Header;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

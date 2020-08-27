@@ -5,7 +5,6 @@
  */
 package io.debezium.examples.outbox.trade.service;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -23,7 +22,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.mutiny.core.eventbus.EventBus;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
