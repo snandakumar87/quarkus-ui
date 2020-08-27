@@ -7,7 +7,7 @@ projects:
     name: quarkus-daytrader
     source:
       type: git
-      location: "https://github.com/murphye/quarkus-daytrader.git"
+      location: "https://github.com/murphye/quarkus-daytrader"
       sparseCheckoutDir: quarkus-daytrader
 components:
   -
@@ -57,7 +57,7 @@ commands:
         type: exec
         component: centos-quarkus-maven
         command: "./mvnw package"
-        workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started
+        workdir: ${CHE_PROJECTS_ROOT}/quarkus-daytrader/getting-started
   -
     name: Start Development mode (Hot reload + debug)
     actions:
@@ -65,7 +65,7 @@ commands:
         type: exec
         component: centos-quarkus-maven
         command: "./mvnw compile quarkus:dev"
-        workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started
+        workdir: ${CHE_PROJECTS_ROOT}/quarkus-daytrader/getting-started
   -
     name: Package Native
     actions:
@@ -73,7 +73,7 @@ commands:
         type: exec
         component: centos-quarkus-maven
         command: "./mvnw package -Dnative -Dmaven.test.skip"
-        workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started
+        workdir: ${CHE_PROJECTS_ROOT}/quarkus-daytrader/getting-started
 
   -
     name: Start Native
@@ -82,7 +82,7 @@ commands:
         type: exec
         component: ubi-minimal
         command: ./getting-started-1.0-SNAPSHOT-runner
-        workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started/target
+        workdir: ${CHE_PROJECTS_ROOT}/quarkus-daytrader/getting-started/target
   -
     name: Attach remote debugger
     actions:
