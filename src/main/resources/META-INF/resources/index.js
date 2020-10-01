@@ -3,7 +3,7 @@ if (!!window.EventSource) {
     eventSource.onmessage = function(event) {
         data = JSON.parse(event.data);
 
-        var row = '<tr><td>' + data.accountId + '</td><td>' + data.orderId + '</td><td>' + data.orderType + '</td><td>' + data.openDate + '</td><td>' + data.symbol + '</td><td style="text-align: right;">' + data.price + '</td><td style="text-align: right;">' + data.orderFee + '</td></tr>';
+        var row = '<tr><td>' + data.id + '</td><td>' + data.amount + '</td><td>' + data.country + '</td><td>' + data.merchantId + '</td><td>';
 
         $('#tbody').append(row);
     };

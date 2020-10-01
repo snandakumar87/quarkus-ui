@@ -43,11 +43,8 @@ public class OrderEventHandler {
             JsonNode eventJson = deserialize(payload);
             LOGGER.info("#1 " + eventJson.asText());
 
-            UUID eventId = UUID.fromString(eventJson.get("ID").textValue());
+            UUID eventId = UUID.fromString(eventJson.get("id").textValue());
             LOGGER.info("#2 " + eventId.toString());
-
-            String eventType = eventJson.get("TYPE").textValue();
-            LOGGER.info("#3 " + eventType);
 
 
             if (log.alreadyProcessed(eventId)) {
@@ -58,17 +55,6 @@ public class OrderEventHandler {
             LOGGER.info("Continuing onOrderEvent");
 
             JsonNode eventPayload = eventJson.get("PAYLOAD");
-
-            LOGGER.info("Received 'Order' event -- event id: '{}', event type: '{}'", eventId, eventType);
-
-            if (eventType.equals("OrderCreated")) {
-                shipmentService.orderCreated(eventPayload);
-            }
-            else {
-                LOGGER.warn("Unkown event type");
-            }
-
-            log.processed(eventId);
 
         }
         catch(Exception e) {

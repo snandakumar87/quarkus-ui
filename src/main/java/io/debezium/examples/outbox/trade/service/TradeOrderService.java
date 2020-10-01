@@ -14,10 +14,10 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
+import io.debezium.examples.outbox.trade.model.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.debezium.examples.outbox.trade.model.TradeOrder;
 import io.vertx.core.json.JsonObject;
 import io.vertx.mutiny.core.eventbus.EventBus;
 
@@ -47,24 +47,18 @@ public class TradeOrderService {
 
         LOGGER.info("type: " + event.get("type") + " " + event.get("type").asText());
 
-        final long orderId = Long.valueOf(event.get("id").asText());
-        final String orderType = event.get("type").asText();
-        final Date openDate = new Date(event.get("openDate").asLong());
-        final String symbol = event.get("symbol").asText();
-        final int quantity = event.get("quantity").asInt();
-        final String price = event.get("price").asText();
-        final String orderFee= event.get("orderFee").asText();
-        final int accountId = event.get("accountId").asInt();
+        final String id =event.get("id").asText();
+        final String amount = event.get("amount").asText();
+        final String county = event.get("country").asText();
+        final String merchantId = event.get("merchantId").asText();
 
-        LOGGER.info("Going to persist 'TradeOrder'");
+        Transaction transaction = new Transaction(id, county,amount,merchantId);
 
-        TradeOrder tradeOrder = new TradeOrder(orderId, orderType, openDate, symbol, quantity, price, orderFee, accountId);
+        LOGGER.info("Persisting 'TradeOrder': {}", transaction);
 
-        LOGGER.info("Persisting 'TradeOrder': {}", tradeOrder);
+        entityManager.persist(transaction);
 
-        entityManager.persist(tradeOrder);
-
-        final JsonObject jsonObject = JsonObject.mapFrom(tradeOrder);
+        final JsonObject jsonObject = JsonObject.mapFrom(transaction);
         eventBus.publish("order_stream", jsonObject);
     }
 

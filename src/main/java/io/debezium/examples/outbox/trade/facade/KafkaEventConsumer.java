@@ -26,7 +26,7 @@ public class KafkaEventConsumer {
     @Inject
     OrderEventHandler orderEventHandler;
 
-    @Incoming("orders")
+    @Incoming("transaction-in")
     @Transactional
     public CompletionStage<Void> onMessage(KafkaRecord<String, String> message) throws IOException {
         return CompletableFuture.runAsync(() -> {
