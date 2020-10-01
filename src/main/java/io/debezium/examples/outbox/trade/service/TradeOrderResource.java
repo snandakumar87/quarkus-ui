@@ -27,6 +27,7 @@ public class TradeOrderResource {
     @SseElementType(MediaType.APPLICATION_JSON)
     public Multi<JsonObject> stream()
     {
+        System.out.println("Came to post call");
         return eventBus.<JsonObject>consumer("order_stream")
                 .toMulti()
                 .map(b -> b.body());
