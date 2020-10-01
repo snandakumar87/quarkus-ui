@@ -56,6 +56,8 @@ public class OrderEventHandler {
 
             JsonNode eventPayload = eventJson.get("PAYLOAD");
 
+            shipmentService.orderCreated(eventPayload);
+
         }
         catch(Exception e) {
             LOGGER.error("Error: " + e.getMessage());
